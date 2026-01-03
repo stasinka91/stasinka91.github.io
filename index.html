@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>S.LENS — Разбор сайта</title>
+  <meta name="description" content="S.LENS — Разбор сайта. Где теряются заявки и деньги. Спокойный аналитический разбор без обещаний, без воды и без «волшебства»."/>
+  <style>
+    :root{
+      --bg:#0f1114;
+      --panel:#141820;
+      --panel2:#10141b;
+      --text:#f2f4f7;
+      --muted:#a8b0bf;
+      --line:rgba(255,255,255,.12);
+      --soft:rgba(255,255,255,.06);
+      --accent:#ffffff; /* intentionally minimal */
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+      --radius:18px;
+      --max:1080px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(800px 500px at 10% 10%, rgba(255,255,255,.07), transparent 55%),
+        radial-gradient(900px 600px at 90% 30%, rgba(255,255,255,.05), transparent 60%),
+        linear-gradient(180deg, var(--bg), #0b0d10 70%);
+      line-height:1.55;
+    }
+
+    a{color:inherit; text-decoration:none}
+    .container{max-width:var(--max); margin:0 auto; padding:0 20px}
+    .topbar{
+      position:sticky; top:0; z-index:30;
+      backdrop-filter: blur(10px);
+      background: rgba(15,17,20,.65);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:16px; padding:14px 0;
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px; min-width:180px;
+    }
+    .brand img{height:24px; width:auto; display:block; opacity:.95}
+    .nav{
+      display:flex; gap:14px; flex-wrap:wrap; justify-content:flex-end;
+      font-size:14px; color:var(--muted);
+    }
+    .nav a{padding:6px 10px; border-radius:999px}
+    .nav a:hover{background:var(--soft); color:var(--text)}
+    .cta-mini{
+      display:none;
+      padding:9px 12px; border:1px solid var(--line);
+      border-radius:999px; background:rgba(255,255,255,.04);
+      color:var(--text); font-size:14px;
+    }
+    .cta-mini:hover{background:rgba(255,255,255,.08)}
+
+    /* HERO */
+    .hero{padding:48px 0 14px}
+    .hero-grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:22px;
+      align-items:stretch;
+    }
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
+      padding:28px;
+      position:relative;
+      overflow:hidden;
+    }
+    .hero-card:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: radial-gradient(600px 220px at 10% 0%, rgba(255,255,255,.08), transparent 55%);
+      pointer-events:none;
+    }
+    .kicker{
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:12px; letter-spacing:.14em;
+      color:var(--muted); text-transform:uppercase;
+      border:1px solid var(--line);
+      padding:8px 12px; border-radius:999px;
+      background:rgba(255,255,255,.03);
+    }
+    h1{
+      margin:16px 0 10px;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height:1.05;
+      letter-spacing:-.02em;
+    }
+    .subtitle{
+      margin:0;
+      color:var(--muted);
+      font-size: clamp(16px, 1.6vw, 18px);
+      max-width:62ch;
+    }
+    .micro{
+      margin-top:16px;
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:rgba(255,255,255,.72);
+    }
+    .hero-actions{
+      display:flex; gap:12px; flex-wrap:wrap;
+      margin-top:22px;
+    }
+    .btn{
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
+      padding:12px 16px;
+      border-radius:999px;
+      font-weight:600;
+      font-size:15px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      transition: transform .12s ease, background .12s ease;
+      cursor:pointer;
+      user-select:none;
+    }
+    .btn:hover{background:rgba(255,255,255,.10); transform: translateY(-1px)}
+    .btn.primary{
+      background: #ffffff;
+      color:#0b0d10;
+      border-color: rgba(255,255,255,.6);
+    }
+    .btn.primary:hover{background:#f2f2f2}
+    .btn:focus{outline:2px solid rgba(255,255,255,.35); outline-offset:2px}
+
+    .side-card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+      padding:22px;
+      box-shadow: var(--shadow);
+    }
+    .side-title{
+      margin:0 0 12px;
+      font-size:14px;
+      color:rgba(255,255,255,.85);
+      letter-spacing:.02em;
+    }
+    .facts{
+      display:grid;
+      gap:10px;
+      margin-top:10px;
+    }
+    .fact{
+      display:flex; gap:10px; align-items:flex-start;
+      padding:12px 12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:rgba(255,255,255,.03);
+    }
+    .dot{
+      width:10px; height:10px; border-radius:50%;
+      background:rgba(255,255,255,.85);
+      flex:0 0 10px;
+      margin-top:6px;
+    }
+    .fact b{display:block; font-size:14px}
+    .fact span{display:block; color:var(--muted); font-size:13px; margin-top:2px}
+
+    /* Sections */
+    section{padding:38px 0}
+    .section-card{
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      background: rgba(255,255,255,.02);
+      padding:24px;
+    }
+    .section-head{
+      display:flex; align-items:flex-end; justify-content:space-between; gap:14px; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    h2{
+      margin:0;
+      font-size:22px;
+      letter-spacing:-.01em;
+    }
+    .hint{color:var(--muted); font-size:14px; max-width:70ch}
+    .grid-2{display:grid; grid-template-columns: 1fr 1fr; gap:14px}
+    .grid-3{display:grid; grid-template-columns: repeat(3, 1fr); gap:14px}
+    .item{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:rgba(255,255,255,.03);
+      padding:14px 14px;
+      min-height:74px;
+    }
+    .item b{display:block; font-size:14px}
+    .item p{margin:6px 0 0; color:var(--muted); font-size:13px}
+
+    .list{
+      margin:0; padding-left:18px; color:var(--muted);
+      display:grid; gap:6px;
+    }
+    .split{
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:14px;
+    }
+
+    /* Pricing */
+    .price{
+      font-size:44px; letter-spacing:-.03em; margin:10px 0 6px;
+    }
+    .small{color:var(--muted); font-size:14px; margin:0}
+
+    /* Form */
+    form{margin-top:8px}
+    .form-grid{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+    label{font-size:13px; color:rgba(255,255,255,.86)}
+    input, textarea{
+      width:100%;
+      margin-top:6px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      color:var(--text);
+      font:inherit;
+    }
+    textarea{min-height:110px; resize:vertical}
+    .form-actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-top:12px}
+    .note{color:var(--muted); font-size:12px; margin:0}
+
+    /* Footer */
+    footer{
+      padding:28px 0 44px;
+      border-top:1px solid var(--line);
+      margin-top:18px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .footer-grid{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:18px; flex-wrap:wrap;
+    }
+    .footer-brand b{color:rgba(255,255,255,.86)}
+    .footer-legal{max-width:75ch}
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .hero-grid{grid-template-columns:1fr}
+      .cta-mini{display:inline-flex}
+      .nav{display:none}
+      .grid-3{grid-template-columns:1fr}
+      .grid-2{grid-template-columns:1fr}
+      .split{grid-template-columns:1fr}
+      .form-grid{grid-template-columns:1fr}
+    }
+    @media (prefers-reduced-motion: reduce){
+      .btn{transition:none}
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="container">
+      <div class="topbar-inner">
+        <div class="brand">
+          <img src="logo2.png" alt="S.LENS" />
+        </div>
+
+        <nav class="nav" aria-label="Навигация">
+          <a href="#forwho">Для кого</a>
+          <a href="#not">Что это не такое</a>
+          <a href="#get">Что вы получаете</a>
+          <a href="#price">Стоимость</a>
+          <a href="#order">Заказать</a>
+        </nav>
+
+        <a class="cta-mini" href="#order">Получить разбор</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- BLOCK 1: HERO -->
+    <section class="hero" id="top">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div class="kicker">S.LENS — Разбор сайта</div>
+            <h1>Где теряются заявки и деньги</h1>
+            <p class="subtitle">
+              Спокойный, аналитический разбор сайта — без обещаний, без воды и без «волшебства».
+              Вы получаете ясный диагноз, приоритеты и конкретные действия.
+            </p>
+            <div class="micro">НЕСЛИВАЙТРАФИК</div>
+            <div class="hero-actions">
+              <a class="btn primary" href="#order" aria-label="Получить разбор сайта">Получить разбор сайта</a>
+              <a class="btn" href="#how" aria-label="Как выглядит разбор">Как выглядит разбор</a>
+            </div>
+          </div>
+
+          <aside class="side-card" aria-label="Ключевые параметры">
+            <p class="side-title"><b>Формат и сроки</b></p>
+            <div class="facts">
+              <div class="fact">
+                <div class="dot"></div>
+                <div>
+                  <b>PDF-документ</b>
+                  <span>структура + приоритеты + конкретные правки</span>
+                </div>
+              </div>
+              <div class="fact">
+                <div class="dot"></div>
+                <div>
+                  <b>24–48 часов</b>
+                  <span>без созвонов и лишних вопросов</span>
+                </div>
+              </div>
+              <div class="fact">
+                <div class="dot"></div>
+                <div>
+                  <b>Текстовое общение</b>
+                  <span>коротко, по делу, без «переписок на неделю»</span>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 2: FOR WHO -->
+    <section id="forwho">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Для кого это</h2>
+            <div class="hint">Этот разбор подойдёт, если нужно понять, где именно «ломается» путь клиента.</div>
+          </div>
+          <div class="grid-2">
+            <div class="item">
+              <b>Трафик есть — заявок мало</b>
+              <p>на сайт уже идёт трафик, но конверсия не устраивает</p>
+            </div>
+            <div class="item">
+              <b>Есть реклама / SEO</b>
+              <p>но результат не радует, а бюджет продолжает уходить</p>
+            </div>
+            <div class="item">
+              <b>Непонятно, где проблема</b>
+              <p>нужно быстро определить точки потерь и приоритеты</p>
+            </div>
+            <div class="item">
+              <b>Не хочется редизайн «вслепую»</b>
+              <p>важно действовать точечно и экономно</p>
+            </div>
+            <div class="item">
+              <b>Нужен внятный диагноз</b>
+              <p>и план: что делать, а что не трогать</p>
+            </div>
+            <div class="item">
+              <b>Нужно ТЗ для подрядчика</b>
+              <p>чтобы исправления были понятны и выполнимы</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 3: WHAT IT IS NOT -->
+    <section id="not">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Что это не такое</h2>
+            <div class="hint">Фильтр ожиданий — чтобы всем было спокойно.</div>
+          </div>
+          <div class="grid-3">
+            <div class="item"><b>Не SEO‑продвижение</b><p>разбор не заменяет стратегию и работы «в долгую»</p></div>
+            <div class="item"><b>Не редизайн</b><p>мы не «рисуем красиво», мы устраняем потери</p></div>
+            <div class="item"><b>Не чек‑лист сервиса</b><p>это не набор галочек и отчётов</p></div>
+            <div class="item"><b>Не консультация по Zoom</b><p>никаких созвонов — всё в документе</p></div>
+            <div class="item"><b>Не гарантия продаж</b><p>результат зависит от внедрения и внешних факторов</p></div>
+            <div class="item"><b>Не «магия»</b><p>только логика, приоритеты и конкретика</p></div>
+          </div>
+          <p class="hint" style="margin:14px 0 0;">
+            S.LENS — это экспертный разбор текущего состояния сайта и его способности принимать трафик и заявки.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 4: WHAT YOU GET -->
+    <section id="get">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Что вы получаете</h2>
+            <div class="hint">Чёткий список причин потерь и план действий.</div>
+          </div>
+
+          <div class="split">
+            <div class="item">
+              <b>В результате разбора</b>
+              <ul class="list">
+                <li>выявленные точки, где сайт теряет заявки</li>
+                <li>объяснение, почему это происходит</li>
+                <li>конкретные рекомендации, что исправить</li>
+                <li>приоритеты: с чего начинать, а что не трогать</li>
+                <li>понимание, где не стоит тратить деньги</li>
+              </ul>
+            </div>
+
+            <div class="item">
+              <b>Формат</b>
+              <p class="small" style="margin-top:10px;">📄 PDF-документ</p>
+              <p class="small">⏱ Срок: 24–48 часов</p>
+              <p class="small">📎 Без созвонов и лишних вопросов</p>
+              <p class="small" style="margin-top:10px;">
+                Документ можно сохранить, передать подрядчику и использовать как основу для доработок.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 5: HOW IT LOOKS -->
+    <section id="how">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Как выглядит разбор</h2>
+            <div class="hint">Структура документа — чтобы вы понимали, что получите.</div>
+          </div>
+
+          <div class="grid-2">
+            <div class="item">
+              <b>Структура документа</b>
+              <ul class="list">
+                <li>Краткий вердикт по сайту</li>
+                <li>Ключевые точки потерь</li>
+                <li>Пояснение, как они влияют на заявки</li>
+                <li>Рекомендации по исправлению</li>
+                <li>Приоритеты действий</li>
+                <li>Что делать не нужно</li>
+              </ul>
+            </div>
+
+            <div class="item">
+              <b>Что вы сможете сделать с документом</b>
+              <ul class="list">
+                <li>сохранить</li>
+                <li>передать подрядчику</li>
+                <li>использовать как основу для доработок</li>
+                <li>вернуться к приоритетам и выполнить по шагам</li>
+              </ul>
+              <p class="small" style="margin-top:10px;">Если нужно — добавлю комментарии к внедрению (в рамках 1 уточняющего вопроса).</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 6: WHY NOT A SERVICE -->
+    <section id="why">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Почему не сервис</h2>
+            <div class="hint">Автоматические отчёты дают цифры. S.LENS даёт смысл и приоритеты.</div>
+          </div>
+
+          <div class="grid-3">
+            <div class="item"><b>Сервисы показывают показатели</b><p>но не отвечают на вопрос «что делать первым?»</p></div>
+            <div class="item"><b>Сервисы не знают контекст</b><p>ниши, аудитории, оффера, реальных барьеров</p></div>
+            <div class="item"><b>Сервисы не расставляют приоритеты</b><p>в итоге правки делаются хаотично или не делаются вовсе</p></div>
+          </div>
+
+          <p class="hint" style="margin:14px 0 0;">
+            S.LENS — это интерпретация и мышление, а не набор цифр и чекбоксов.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 7: EXPECTATIONS -->
+    <section id="limits">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Ожидания и границы</h2>
+            <div class="hint">Это повышает доверие правильной аудитории.</div>
+          </div>
+
+          <div class="split">
+            <div class="item">
+              <b>Что важно понимать</b>
+              <ul class="list">
+                <li>разбор не гарантирует рост продаж</li>
+                <li>результат зависит от внедрения рекомендаций</li>
+                <li>от источников трафика</li>
+                <li>от продукта и рынка</li>
+              </ul>
+            </div>
+            <div class="item">
+              <b>Что делает разбор</b>
+              <p class="small" style="margin-top:10px;">
+                Разбор показывает, <b>где</b> и <b>почему</b> сайт теряет заявки, а не обещает бизнес‑результат.
+                Это инструмент ясности и правильных решений.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 8: PRICING -->
+    <section id="price">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Стоимость</h2>
+            <div class="hint">Фиксированная цена, понятный формат, ограниченная загрузка.</div>
+          </div>
+
+          <div class="split">
+            <div class="item">
+              <div class="price">10&nbsp;000 ₽</div>
+              <p class="small">⏱ Срок выполнения: до 48 часов</p>
+              <p class="small">📄 Формат: PDF</p>
+              <p class="small">📩 Общение: текстом, без созвонов</p>
+              <p class="small" style="margin-top:10px;">
+                (Цена может быть повышена при большой загрузке)
+              </p>
+            </div>
+            <div class="item">
+              <b>В стоимость входит</b>
+              <ul class="list" style="margin-top:10px;">
+                <li>разбор ключевых страниц и пути заявки</li>
+                <li>описание точек потерь с пояснениями</li>
+                <li>конкретные рекомендации и приоритеты</li>
+                <li>1 уточняющий вопрос после получения PDF</li>
+              </ul>
+              <div style="margin-top:12px;">
+                <a class="btn primary" href="#order">Заказать разбор сайта</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- BLOCK 9: HOW TO ORDER -->
+    <section id="order">
+      <div class="container">
+        <div class="section-card">
+          <div class="section-head">
+            <h2>Как заказать</h2>
+            <div class="hint">Заполните форму — я отвечу и подтвержу срок. (Можно заменить на ссылку в Telegram.)</div>
+          </div>
+
+          <div class="grid-2">
+            <div class="item">
+              <b>Чтобы получить разбор</b>
+              <ol class="list" style="padding-left:18px; margin-top:10px;">
+                <li>Нажмите кнопку «Отправить заявку»</li>
+                <li>Отправьте ссылку на сайт</li>
+                <li>Кратко опишите, что сейчас не устраивает</li>
+              </ol>
+              <p class="small" style="margin-top:10px;">
+                После подтверждения вы получите реквизиты и разбор в согласованный срок.
+              </p>
+            </div>
+
+            <div class="item">
+              <b>Заявка</b>
+
+              <form id="leadForm">
+                <div class="form-grid">
+                  <div>
+                    <label for="site">Ссылка на сайт</label>
+                    <input id="site" name="site" type="url" placeholder="https://example.ru" required />
+                  </div>
+                  <div>
+                    <label for="contact">Контакт (Telegram / email)</label>
+                    <input id="contact" name="contact" type="text" placeholder="@username или email" required />
+                  </div>
+                </div>
+
+                <div style="margin-top:12px;">
+                  <label for="problem">Что сейчас не устраивает</label>
+                  <textarea id="problem" name="problem" placeholder="Например: мало заявок, реклама не окупается, форма не работает..." required></textarea>
+                </div>
+
+                <div class="form-actions">
+                  <button class="btn primary" type="submit">Отправить заявку</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <b>S.LENS</b><br/>
+          НЕСЛИВАЙТРАФИК
+        </div>
+        <div class="footer-legal">
+          Разбор носит аналитический характер и не является гарантией роста продаж. Результат зависит от корректности внедрения рекомендаций, источников трафика, продукта и внешних факторов.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Demo form behavior (no server). Replace with your integration later.
+    const form = document.getElementById('leadForm');
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const site = document.getElementById('site').value.trim();
+      const contact = document.getElementById('contact').value.trim();
+      const problem = document.getElementById('problem').value.trim();
+
+      const msg = `Заявка S.LENS%0AСайт: ${encodeURIComponent(site)}%0AКонтакт: ${encodeURIComponent(contact)}%0AЗапрос: ${encodeURIComponent(problem)}`;
+      // Put your telegram username here:
+      const tgUser = 'stasinka91';
+      const url = `https://t.me/${tgUser}?text=${msg}`;
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
